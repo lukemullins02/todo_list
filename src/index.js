@@ -1,7 +1,6 @@
 import { projects } from "./projects.js";
 
 let arr = [];
-let x = [];
 let i = 0;
 
 const body = document.querySelector("body");
@@ -16,18 +15,21 @@ body.appendChild(newDiv);
 
 btn.addEventListener("click", () => {
   let name = prompt("Enter project name");
-  let title = prompt("Enter todo title");
   const btn = document.createElement("button");
   btn.classList.add("yo");
   btn.textContent = name;
   btn.dataset.id = i;
-  div.appendChild(btn);
-  projects(x, title, i);
   i++;
+  div.appendChild(btn);
+  arr.push([]);
 });
 
 div.addEventListener("click", (e) => {
   if (!e.target.classList.contains("yo")) return;
+
+  let title = prompt("Enter title");
+  let priority = prompt("Enter priority");
+  projects(arr[e.target.dataset.id], title, priority);
 
   let child = newDiv.lastElementChild;
   while (child) {
@@ -35,8 +37,10 @@ div.addEventListener("click", (e) => {
     child = newDiv.lastElementChild;
   }
 
-  const item = x.find((item) => item.priority === Number(e.target.dataset.id));
-  const itemDom = document.createElement("p");
-  itemDom.textContent = item.title;
-  newDiv.appendChild(itemDom);
+  for (let i = 0; i < arr[e.target.dataset.id].length; i++) {
+    const item = arr[e.target.dataset.id][i];
+    const itemDom = document.createElement("p");
+    itemDom.textContent = item.title;
+    newDiv.appendChild(itemDom);
+  }
 });
