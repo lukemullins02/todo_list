@@ -1,19 +1,21 @@
 import { projects } from "./projects.js";
 import { deleteItem } from "./deleteItem.js";
+import "./styles.css";
 
 let arr = [];
 let i = 0;
 let index = 0;
 
 const body = document.querySelector("body");
-const div = document.createElement("div");
-const btn = document.createElement("button");
+const btn = document.querySelector("#new-proj");
+const div = document.querySelector(".proj-name");
+const container = document.querySelector(".container");
 const newDiv = document.createElement("div");
+newDiv.classList.add("main-area");
 
 btn.textContent = "New Project";
-body.appendChild(btn);
-body.appendChild(div);
-body.appendChild(newDiv);
+
+container.appendChild(newDiv);
 
 btn.addEventListener("click", () => {
   let name = prompt("Enter project name");
@@ -36,14 +38,20 @@ div.addEventListener("click", (e) => {
   }
 
   const newTodo = document.createElement("button");
+  newTodo.classList.add("new-todo");
   newTodo.textContent = "Create Todo";
 
+  const card_container = document.createElement("div");
+  card_container.classList.add("card-container");
+
   newDiv.appendChild(newTodo);
+  newDiv.appendChild(card_container);
 
   newTodo.addEventListener("click", () => {
     let title = prompt("Enter title");
     let priority = prompt("Enter priority");
     projects(arr[e.target.dataset.id], title, priority, index);
+    index++;
     e.target.click();
   });
 
@@ -51,13 +59,19 @@ div.addEventListener("click", (e) => {
     const item = arr[e.target.dataset.id][i];
     const itemDom = document.createElement("p");
     const delBtn = document.createElement("button");
+    const card = document.createElement("div");
+    card.classList.add("card");
+
     delBtn.textContent = "Delete";
     delBtn.classList.add("delete");
     delBtn.dataset.itemId = item.id;
     delBtn.dataset.arrIndex = e.target.dataset.id;
     itemDom.textContent = item.title;
-    newDiv.appendChild(itemDom);
-    newDiv.appendChild(delBtn);
+
+    card.appendChild(itemDom);
+    card.appendChild(delBtn);
+    card_container.appendChild(card);
+    newDiv.appendChild(card_container);
   }
 });
 

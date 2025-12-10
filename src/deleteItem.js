@@ -1,5 +1,6 @@
 function deleteItem(arr, num) {
   let item = arr.find((item) => item.id === Number(num));
+  console.log(item);
   let place = arr.indexOf(item);
   arr.splice(place, 1);
 }
