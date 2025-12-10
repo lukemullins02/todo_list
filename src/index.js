@@ -1,4 +1,5 @@
 import { projects } from "./projects.js";
+import { deleteItem } from "./deleteItem.js";
 
 let arr = [];
 let i = 0;
@@ -43,7 +44,6 @@ div.addEventListener("click", (e) => {
     let title = prompt("Enter title");
     let priority = prompt("Enter priority");
     projects(arr[e.target.dataset.id], title, priority, index);
-    index++;
     e.target.click();
   });
 
@@ -64,11 +64,7 @@ div.addEventListener("click", (e) => {
 newDiv.addEventListener("click", (e) => {
   if (!e.target.classList.contains("delete")) return;
 
-  let item = arr[e.target.dataset.arrIndex].find(
-    (item) => item.id === Number(e.target.dataset.itemId)
-  );
-  let place = arr[e.target.dataset.arrIndex].indexOf(item);
-  arr[e.target.dataset.arrIndex].splice(place, 1);
+  deleteItem(arr[e.target.dataset.arrIndex], e.target.dataset.itemId);
 
   const reloadBtn = document.querySelector(
     `button[data-id="${e.target.dataset.arrIndex}"]`
