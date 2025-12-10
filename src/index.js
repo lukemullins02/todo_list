@@ -27,15 +27,23 @@ btn.addEventListener("click", () => {
 div.addEventListener("click", (e) => {
   if (!e.target.classList.contains("yo")) return;
 
-  let title = prompt("Enter title");
-  let priority = prompt("Enter priority");
-  projects(arr[e.target.dataset.id], title, priority);
-
   let child = newDiv.lastElementChild;
   while (child) {
     newDiv.removeChild(child);
     child = newDiv.lastElementChild;
   }
+
+  const newTodo = document.createElement("button");
+  newTodo.textContent = "Create Todo";
+
+  newDiv.appendChild(newTodo);
+
+  newTodo.addEventListener("click", () => {
+    let title = prompt("Enter title");
+    let priority = prompt("Enter priority");
+    projects(arr[e.target.dataset.id], title, priority);
+    e.target.click();
+  });
 
   for (let i = 0; i < arr[e.target.dataset.id].length; i++) {
     const item = arr[e.target.dataset.id][i];
