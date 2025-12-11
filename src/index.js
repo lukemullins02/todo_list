@@ -19,14 +19,30 @@ container.appendChild(newDiv);
 
 btn.addEventListener("click", () => {
   let name = prompt("Enter project name");
-  const btn = document.createElement("button");
-  btn.classList.add("projects");
-  btn.textContent = name;
-  btn.dataset.id = i;
+  const projBtn = document.createElement("button");
+  const projDel = document.createElement("button");
+  projBtn.classList.add("projects");
+  projDel.classList.add("del-proj");
+  projDel.textContent = "Delete Project";
+  projDel.dataset.id = i;
+  projBtn.textContent = name;
+  projBtn.dataset.id = i;
+  arr.push({ id: i, todos: [] });
   i++;
-  div.appendChild(btn);
-  arr.push([]);
+  div.appendChild(projBtn);
+  div.appendChild(projDel);
 });
+
+// div.addEventListener("click", (e) => {
+//   if (!e.target.classList.contains("del-proj")) return;
+//   deleteItem(arr, e.target.dataset.id);
+//   const proj = document.querySelector(
+//     `button[data-id="${e.target.dataset.id}"]`
+//   );
+
+//   proj.remove();
+//   e.target.remove();
+// });
 
 div.addEventListener("click", (e) => {
   if (!e.target.classList.contains("projects")) return;
@@ -55,18 +71,19 @@ div.addEventListener("click", (e) => {
     e.target.click();
   });
 
-  for (let i = 0; i < arr[e.target.dataset.id].length; i++) {
-    const item = arr[e.target.dataset.id][i];
+  for (let i = 0; i < arr[e.target.dataset.id].todos.length; i++) {
+    const item = arr[e.target.dataset.id];
+    console.log(item);
     const itemDom = document.createElement("p");
     const delBtn = document.createElement("button");
     const card = document.createElement("div");
     card.classList.add("card");
-
     delBtn.textContent = "Delete";
     delBtn.classList.add("delete");
-    delBtn.dataset.itemId = item.id;
-    delBtn.dataset.arrIndex = e.target.dataset.id;
-    itemDom.textContent = item.title;
+    delBtn.dataset.itemId = item.todos[i].id;
+    delBtn.dataset.objId = item.id;
+    delBtn.dataset.reload = e.target.dataset.id;
+    itemDom.textContent = item.todos[i].title;
 
     card.appendChild(itemDom);
     card.appendChild(delBtn);
@@ -78,10 +95,11 @@ div.addEventListener("click", (e) => {
 newDiv.addEventListener("click", (e) => {
   if (!e.target.classList.contains("delete")) return;
 
-  deleteItem(arr[e.target.dataset.arrIndex], e.target.dataset.itemId);
+  console.log(e.target.dataset.itemId);
+  deleteItem(arr, e.target.dataset.objId, e.target.dataset.itemId);
 
   const reloadBtn = document.querySelector(
-    `button[data-id="${e.target.dataset.arrIndex}"]`
+    `button[data-id="${e.target.dataset.reload}"]`
   );
   reloadBtn.click();
 });
