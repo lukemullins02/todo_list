@@ -1,5 +1,6 @@
 import { projects } from "./projects.js";
 import { deleteItem } from "./deleteItem.js";
+import { deleteProj } from "./deleteProj.js";
 import "./styles.css";
 
 let arr = [];
@@ -33,16 +34,23 @@ btn.addEventListener("click", () => {
   div.appendChild(projDel);
 });
 
-// div.addEventListener("click", (e) => {
-//   if (!e.target.classList.contains("del-proj")) return;
-//   deleteItem(arr, e.target.dataset.id);
-//   const proj = document.querySelector(
-//     `button[data-id="${e.target.dataset.id}"]`
-//   );
+div.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("del-proj")) return;
+  deleteProj(arr, e.target.dataset.id);
 
-//   proj.remove();
-//   e.target.remove();
-// });
+  const proj = document.querySelector(
+    `button[data-id="${e.target.dataset.id}"]`
+  );
+
+  let child = newDiv.lastElementChild;
+  while (child) {
+    newDiv.removeChild(child);
+    child = newDiv.lastElementChild;
+  }
+
+  proj.remove();
+  e.target.remove();
+});
 
 div.addEventListener("click", (e) => {
   if (!e.target.classList.contains("projects")) return;
@@ -63,17 +71,19 @@ div.addEventListener("click", (e) => {
   newDiv.appendChild(newTodo);
   newDiv.appendChild(card_container);
 
+  let proj = arr.find((item) => item.id === Number(e.target.dataset.id));
+  let length = proj.todos.length;
+
   newTodo.addEventListener("click", () => {
     let title = prompt("Enter title");
     let priority = prompt("Enter priority");
-    projects(arr[e.target.dataset.id], title, priority, index);
+    projects(proj, title, priority, index);
     index++;
     e.target.click();
   });
 
-  for (let i = 0; i < arr[e.target.dataset.id].todos.length; i++) {
-    const item = arr[e.target.dataset.id];
-    console.log(item);
+  for (let i = 0; i < length; i++) {
+    const item = proj;
     const itemDom = document.createElement("p");
     const delBtn = document.createElement("button");
     const card = document.createElement("div");

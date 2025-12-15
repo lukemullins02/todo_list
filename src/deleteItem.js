@@ -6,9 +6,3 @@ function deleteItem(arr, objId, itemId) {
 }
 
 export { deleteItem };
-
-// let item = arr[e.target.dataset.arrIndex].find(
-//   (item) => item.id === Number(e.target.dataset.itemId)
-// );
-// let place = arr[e.target.dataset.arrIndex].indexOf(item);
-// arr[e.target.dataset.arrIndex].splice(place, 1);
