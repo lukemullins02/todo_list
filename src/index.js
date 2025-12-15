@@ -7,26 +7,34 @@ let arr = [];
 let i = 0;
 let index = 0;
 
-const body = document.querySelector("body");
-const btn = document.querySelector("#new-proj");
+const dialog = document.querySelector("#dialog-proj");
+const showProj = document.querySelector("#new-proj");
+const projInfo = document.querySelector(".proj-info");
 const div = document.querySelector(".proj-name");
 const container = document.querySelector(".container");
-const newDiv = document.createElement("div");
-newDiv.classList.add("main-area");
+const newDiv = document.querySelector(".main-area");
 
-btn.textContent = "New Project";
+const dialogItem = document.querySelector("#dialog-item");
+const itemInfo = document.querySelector(".item-info");
+showProj.textContent = "New Project";
 
 container.appendChild(newDiv);
 
-btn.addEventListener("click", () => {
-  let name = prompt("Enter project name");
+showProj.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+projInfo.addEventListener("submit", (e) => {
+  e.preventDefault();
+  dialog.close();
   const projBtn = document.createElement("button");
   const projDel = document.createElement("button");
+  const newProj = new FormData(projInfo);
   projBtn.classList.add("projects");
   projDel.classList.add("del-proj");
   projDel.textContent = "Delete Project";
   projDel.dataset.id = i;
-  projBtn.textContent = name;
+  projBtn.textContent = newProj.get("title");
   projBtn.dataset.id = i;
   arr.push({ id: i, todos: [] });
   i++;
@@ -64,23 +72,19 @@ div.addEventListener("click", (e) => {
   const newTodo = document.createElement("button");
   newTodo.classList.add("new-todo");
   newTodo.textContent = "Create Todo";
+  itemInfo.dataset.id = e.target.dataset.id;
+
+  newDiv.appendChild(newTodo);
+
+  newTodo.addEventListener("click", () => {
+    dialogItem.showModal();
+  });
 
   const card_container = document.createElement("div");
   card_container.classList.add("card-container");
 
-  newDiv.appendChild(newTodo);
-  newDiv.appendChild(card_container);
-
   let proj = arr.find((item) => item.id === Number(e.target.dataset.id));
   let length = proj.todos.length;
-
-  newTodo.addEventListener("click", () => {
-    let title = prompt("Enter title");
-    let priority = prompt("Enter priority");
-    projects(proj, title, priority, index);
-    index++;
-    e.target.click();
-  });
 
   for (let i = 0; i < length; i++) {
     const item = proj;
@@ -100,6 +104,22 @@ div.addEventListener("click", (e) => {
     card_container.appendChild(card);
     newDiv.appendChild(card_container);
   }
+});
+
+itemInfo.addEventListener("submit", (e) => {
+  e.preventDefault();
+  dialogItem.close();
+
+  const newItem = new FormData(itemInfo);
+  let proj = arr.find((item) => item.id === Number(e.target.dataset.id));
+  projects(proj, newItem.get("title"), "Hey", index);
+  index++;
+
+  const projFolder = document.querySelector(
+    `button[data-id="${e.target.dataset.id}"]`
+  );
+
+  projFolder.click();
 });
 
 newDiv.addEventListener("click", (e) => {
