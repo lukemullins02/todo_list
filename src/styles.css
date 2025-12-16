@@ -124,6 +124,18 @@ body {
   margin-bottom: 20px;
 }
 
+#dialog-edit {
+  justify-self: center;
+  align-self: center;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: black 2px solid;
+  padding: 30px;
+  width: 500px;
+  margin-bottom: 20px;
+}
+
 #new-proj {
   width: 200px;
   height: 50px;
