@@ -1,6 +1,7 @@
 import { projects } from "./projects.js";
 import { deleteItem } from "./deleteItem.js";
 import { deleteProj } from "./deleteProj.js";
+import { editItem } from "./editItem.js";
 import "./styles.css";
 
 let arr = [];
@@ -17,6 +18,9 @@ const newDiv = document.querySelector(".main-area");
 const dialogItem = document.querySelector("#dialog-item");
 const itemInfo = document.querySelector(".item-info");
 showProj.textContent = "New Project";
+
+const dialogEdit = document.querySelector("#dialog-edit");
+const editInfo = document.querySelector(".edit-info");
 
 container.appendChild(newDiv);
 
@@ -90,6 +94,8 @@ div.addEventListener("click", (e) => {
     const item = proj;
     const itemDom = document.createElement("p");
     const delBtn = document.createElement("button");
+    const editBtn = document.createElement("button");
+
     const card = document.createElement("div");
     card.classList.add("card");
     delBtn.textContent = "Delete";
@@ -97,10 +103,17 @@ div.addEventListener("click", (e) => {
     delBtn.dataset.itemId = item.todos[i].id;
     delBtn.dataset.objId = item.id;
     delBtn.dataset.reload = e.target.dataset.id;
+    editBtn.textContent = "Edit";
+    editBtn.classList.add("edit");
+    editBtn.dataset.itemId = item.todos[i].id;
+    editBtn.dataset.objId = item.id;
+    editBtn.dataset.reload = e.target.dataset.id;
+
     itemDom.textContent = item.todos[i].title;
 
     card.appendChild(itemDom);
     card.appendChild(delBtn);
+    card.appendChild(editBtn);
     card_container.appendChild(card);
     newDiv.appendChild(card_container);
   }
@@ -132,4 +145,34 @@ newDiv.addEventListener("click", (e) => {
     `button[data-id="${e.target.dataset.reload}"]`
   );
   reloadBtn.click();
+});
+
+newDiv.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("edit")) return;
+
+  editInfo.dataset.itemId = e.target.dataset.itemId;
+  editInfo.dataset.objId = e.target.dataset.objId;
+  editInfo.dataset.reload = e.target.dataset.reload;
+
+  dialogEdit.showModal();
+});
+
+editInfo.addEventListener("submit", (e) => {
+  e.preventDefault();
+  dialogEdit.close();
+
+  const editTodo = new FormData(editInfo);
+
+  editItem(
+    arr,
+    e.target.dataset.objId,
+    e.target.dataset.itemId,
+    editTodo.get("title")
+  );
+
+  const projFolder = document.querySelector(
+    `button[data-id="${e.target.dataset.reload}"]`
+  );
+
+  projFolder.click();
 });
