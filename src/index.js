@@ -93,27 +93,38 @@ div.addEventListener("click", (e) => {
   for (let i = 0; i < length; i++) {
     const item = proj;
     const itemDom = document.createElement("p");
+    const priorityDom = document.createElement("p");
     const delBtn = document.createElement("button");
     const editBtn = document.createElement("button");
+    const changeBtn = document.createElement("button");
 
     const card = document.createElement("div");
     card.classList.add("card");
+    changeBtn.textContent = "Change Priority";
+    changeBtn.classList.add("change-priority");
+    changeBtn.dataset.itemId = item.todos[i].id;
+    changeBtn.dataset.objId = item.id;
+    changeBtn.dataset.reload = e.target.dataset.id;
+
     delBtn.textContent = "Delete";
     delBtn.classList.add("delete");
     delBtn.dataset.itemId = item.todos[i].id;
     delBtn.dataset.objId = item.id;
     delBtn.dataset.reload = e.target.dataset.id;
-    editBtn.textContent = "Edit";
+    editBtn.textContent = "Edit/Details";
     editBtn.classList.add("edit");
     editBtn.dataset.itemId = item.todos[i].id;
     editBtn.dataset.objId = item.id;
     editBtn.dataset.reload = e.target.dataset.id;
 
     itemDom.textContent = item.todos[i].title;
+    priorityDom.textContent = item.todos[i].priority;
 
     card.appendChild(itemDom);
+    card.appendChild(priorityDom);
     card.appendChild(delBtn);
     card.appendChild(editBtn);
+    card.appendChild(changeBtn);
     card_container.appendChild(card);
     newDiv.appendChild(card_container);
   }
@@ -125,7 +136,15 @@ itemInfo.addEventListener("submit", (e) => {
 
   const newItem = new FormData(itemInfo);
   let proj = arr.find((item) => item.id === Number(e.target.dataset.id));
-  projects(proj, newItem.get("title"), "Hey", index);
+  projects(
+    proj,
+    newItem.get("title"),
+    newItem.get("description"),
+    newItem.get("duedate"),
+    newItem.get("priority"),
+    newItem.get("notes"),
+    index
+  );
   index++;
 
   const projFolder = document.querySelector(
@@ -154,6 +173,21 @@ newDiv.addEventListener("click", (e) => {
   editInfo.dataset.objId = e.target.dataset.objId;
   editInfo.dataset.reload = e.target.dataset.reload;
 
+  let items = arr.find((item) => item.id === Number(e.target.dataset.objId));
+  let place = items.todos.find(
+    (item) => item.id === Number(e.target.dataset.itemId)
+  );
+
+  const editTitle = document.querySelector(".edit-title");
+  const editDescription = document.querySelector(".edit-description");
+  const editDueDate = document.querySelector(".edit-duedate");
+  const editNotes = document.querySelector(".edit-notes");
+
+  editTitle.value = place.title;
+  editDescription.value = place.description;
+  editDueDate.value = place.dueDate;
+  editNotes.value = place.notes;
+
   dialogEdit.showModal();
 });
 
@@ -167,8 +201,33 @@ editInfo.addEventListener("submit", (e) => {
     arr,
     e.target.dataset.objId,
     e.target.dataset.itemId,
-    editTodo.get("title")
+    editTodo.get("title"),
+    editTodo.get("description"),
+    editTodo.get("duedate"),
+    editTodo.get("priority"),
+    editTodo.get("notes")
   );
+
+  const projFolder = document.querySelector(
+    `button[data-id="${e.target.dataset.reload}"]`
+  );
+
+  projFolder.click();
+});
+
+newDiv.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("change-priority")) return;
+
+  let items = arr.find((item) => item.id === Number(e.target.dataset.objId));
+  let place = items.todos.find(
+    (item) => item.id === Number(e.target.dataset.itemId)
+  );
+
+  if (place.priority === "low") {
+    place.priority = "high";
+  } else {
+    place.priority = "low";
+  }
 
   const projFolder = document.querySelector(
     `button[data-id="${e.target.dataset.reload}"]`

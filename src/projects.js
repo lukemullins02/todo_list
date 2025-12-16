@@ -1,7 +1,7 @@
 import { Todo } from "./todo";
 
-function projects(name, title, priority, id) {
-  const todo = new Todo(title, 1, 2, priority, id);
+function projects(name, title, description, dueDate, priority, notes, id) {
+  const todo = new Todo(title, description, dueDate, priority, notes, id);
   name.todos.push(todo);
 }
 
