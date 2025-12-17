@@ -1,8 +1,8 @@
 function priority(item) {
-  if (item.priority === "low") {
-    item.priority = "high";
+  if (item.priority === "Low") {
+    item.priority = "High";
   } else {
-    item.priority = "low";
+    item.priority = "Low";
   }
 }
 

@@ -98,16 +98,29 @@ div.addEventListener("click", (e) => {
   for (let i = 0; i < length; i++) {
     const item = proj;
     const itemDom = document.createElement("p");
-    const priorityDom = document.createElement("p");
-    const checkDom = document.createElement("p");
+    const dateDom = document.createElement("p");
     const delBtn = document.createElement("button");
     const editBtn = document.createElement("button");
     const changeBtn = document.createElement("button");
     const checkInput = document.createElement("input");
     const checkLabel = document.createElement("label");
+    const top_card = document.createElement("div");
+    const bottom_card = document.createElement("div");
+    const checkDom = document.createElement("div");
+
+    top_card.classList.add("top-card");
+    bottom_card.classList.add("bottom-card");
 
     const card = document.createElement("div");
     card.classList.add("card");
+    card.dataset.itemId = item.todos[i].id;
+    card.dataset.objId = item.id;
+
+    if (item.todos[i].priority === "High") {
+      card.classList.add("priority-high");
+    } else {
+      card.classList.add("priority-low");
+    }
 
     checkInput.setAttribute("type", "checkbox");
     checkInput.setAttribute("id", "check");
@@ -121,7 +134,7 @@ div.addEventListener("click", (e) => {
     checkLabel.setAttribute("for", "check");
     checkLabel.textContent = "Finished:";
 
-    changeBtn.textContent = "Change Priority";
+    changeBtn.textContent = item.todos[i].priority;
     changeBtn.classList.add("change-priority");
     changeBtn.dataset.itemId = item.todos[i].id;
     changeBtn.dataset.objId = item.id;
@@ -140,18 +153,20 @@ div.addEventListener("click", (e) => {
     editBtn.dataset.reload = e.target.dataset.id;
 
     itemDom.textContent = item.todos[i].title;
-    priorityDom.textContent = item.todos[i].priority;
-    checkDom.textContent = item.todos[i].check;
     checkInput.checked = item.todos[i].check;
+    dateDom.textContent = item.todos[i].dueDate;
 
-    card.appendChild(itemDom);
-    card.appendChild(priorityDom);
-    card.appendChild(checkDom);
-    card.appendChild(delBtn);
-    card.appendChild(editBtn);
-    card.appendChild(changeBtn);
-    card.appendChild(checkLabel);
-    card.appendChild(checkInput);
+    top_card.appendChild(itemDom);
+    top_card.appendChild(dateDom);
+    checkDom.appendChild(checkLabel);
+    checkDom.appendChild(checkInput);
+    top_card.appendChild(checkDom);
+    bottom_card.appendChild(delBtn);
+    bottom_card.appendChild(editBtn);
+    bottom_card.appendChild(changeBtn);
+    card.appendChild(top_card);
+    card.appendChild(bottom_card);
+
     card_container.appendChild(card);
     newDiv.appendChild(card_container);
   }
@@ -249,6 +264,10 @@ newDiv.addEventListener("click", (e) => {
   let todoItem = findItem(arr, e.target.dataset.objId, e.target.dataset.itemId);
 
   priority(todoItem);
+
+  const cardItem = document.querySelector(
+    `div[data-item-id="${e.target.dataset.itemId}"][data-obj-id="${e.target.dataset.objId}"]`
+  );
 
   const projFolder = document.querySelector(
     `button[data-id="${e.target.dataset.reload}"]`

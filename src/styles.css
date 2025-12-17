@@ -166,9 +166,54 @@ body {
   grid-template-columns: repeat(auto-fit, 1fr);
   gap: 25px;
   padding: 0 20px 0 20px;
+  margin-bottom: 10px;
 }
 .card {
-  background-color: red;
-  height: 100px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  color: white;
+  padding: 10px;
+  min-height: 100px;
   border-radius: 5px;
+}
+
+.top-card {
+  display: flex;
+  justify-content: space-around;
+
+  margin-bottom: 15px;
+  place-items: center;
+}
+.top-card > * {
+  text-align: center;
+  width: 150px;
+}
+
+.bottom-card {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.bottom-card > button {
+  all: unset;
+  cursor: pointer;
+  border: 1px solid rgb(255, 255, 255);
+  text-align: center;
+  border-radius: 5px;
+  width: 115px;
+}
+
+.bottom-card > button:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
+
+.card.priority-high {
+  background-color: rgb(208, 40, 40);
+}
+
+.card.priority-low {
+  background-color: rgb(24, 166, 29);
 }

@@ -5,8 +5,8 @@ class Todo {
     this.dueDate = dueDate;
     this.priority = priority;
     this.notes = notes;
-    this.id = id;
     this.check = check;
+    this.id = id;
   }
 }
 
