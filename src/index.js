@@ -2,6 +2,10 @@ import { projects } from "./projects.js";
 import { deleteItem } from "./deleteItem.js";
 import { deleteProj } from "./deleteProj.js";
 import { editItem } from "./editItem.js";
+import { findItem } from "./findItem.js";
+import { findProject } from "./findProject.js";
+import { check } from "./check.js";
+import { priority } from "./priority.js";
 import "./styles.css";
 
 let arr = [];
@@ -87,19 +91,36 @@ div.addEventListener("click", (e) => {
   const card_container = document.createElement("div");
   card_container.classList.add("card-container");
 
-  let proj = arr.find((item) => item.id === Number(e.target.dataset.id));
+  let proj = findProject(arr, e.target.dataset.id);
+
   let length = proj.todos.length;
 
   for (let i = 0; i < length; i++) {
     const item = proj;
     const itemDom = document.createElement("p");
     const priorityDom = document.createElement("p");
+    const checkDom = document.createElement("p");
     const delBtn = document.createElement("button");
     const editBtn = document.createElement("button");
     const changeBtn = document.createElement("button");
+    const checkInput = document.createElement("input");
+    const checkLabel = document.createElement("label");
 
     const card = document.createElement("div");
     card.classList.add("card");
+
+    checkInput.setAttribute("type", "checkbox");
+    checkInput.setAttribute("id", "check");
+    checkInput.setAttribute("name", "check");
+    checkInput.setAttribute("value", "yes");
+    checkInput.dataset.itemId = item.todos[i].id;
+    checkInput.dataset.objId = item.id;
+    checkInput.dataset.reload = e.target.dataset.id;
+    checkInput.classList.add("check-input");
+
+    checkLabel.setAttribute("for", "check");
+    checkLabel.textContent = "Finished:";
+
     changeBtn.textContent = "Change Priority";
     changeBtn.classList.add("change-priority");
     changeBtn.dataset.itemId = item.todos[i].id;
@@ -111,6 +132,7 @@ div.addEventListener("click", (e) => {
     delBtn.dataset.itemId = item.todos[i].id;
     delBtn.dataset.objId = item.id;
     delBtn.dataset.reload = e.target.dataset.id;
+
     editBtn.textContent = "Edit/Details";
     editBtn.classList.add("edit");
     editBtn.dataset.itemId = item.todos[i].id;
@@ -119,12 +141,17 @@ div.addEventListener("click", (e) => {
 
     itemDom.textContent = item.todos[i].title;
     priorityDom.textContent = item.todos[i].priority;
+    checkDom.textContent = item.todos[i].check;
+    checkInput.checked = item.todos[i].check;
 
     card.appendChild(itemDom);
     card.appendChild(priorityDom);
+    card.appendChild(checkDom);
     card.appendChild(delBtn);
     card.appendChild(editBtn);
     card.appendChild(changeBtn);
+    card.appendChild(checkLabel);
+    card.appendChild(checkInput);
     card_container.appendChild(card);
     newDiv.appendChild(card_container);
   }
@@ -135,7 +162,9 @@ itemInfo.addEventListener("submit", (e) => {
   dialogItem.close();
 
   const newItem = new FormData(itemInfo);
-  let proj = arr.find((item) => item.id === Number(e.target.dataset.id));
+
+  let proj = findProject(arr, e.target.dataset.id);
+
   projects(
     proj,
     newItem.get("title"),
@@ -143,6 +172,7 @@ itemInfo.addEventListener("submit", (e) => {
     newItem.get("duedate"),
     newItem.get("priority"),
     newItem.get("notes"),
+    false,
     index
   );
   index++;
@@ -173,20 +203,19 @@ newDiv.addEventListener("click", (e) => {
   editInfo.dataset.objId = e.target.dataset.objId;
   editInfo.dataset.reload = e.target.dataset.reload;
 
-  let items = arr.find((item) => item.id === Number(e.target.dataset.objId));
-  let place = items.todos.find(
-    (item) => item.id === Number(e.target.dataset.itemId)
-  );
+  let todoItem = findItem(arr, e.target.dataset.objId, e.target.dataset.itemId);
 
   const editTitle = document.querySelector(".edit-title");
   const editDescription = document.querySelector(".edit-description");
   const editDueDate = document.querySelector(".edit-duedate");
   const editNotes = document.querySelector(".edit-notes");
 
-  editTitle.value = place.title;
-  editDescription.value = place.description;
-  editDueDate.value = place.dueDate;
-  editNotes.value = place.notes;
+  console.log(todoItem);
+
+  editTitle.value = todoItem.title;
+  editDescription.value = todoItem.description;
+  editDueDate.value = todoItem.dueDate;
+  editNotes.value = todoItem.notes;
 
   dialogEdit.showModal();
 });
@@ -204,7 +233,6 @@ editInfo.addEventListener("submit", (e) => {
     editTodo.get("title"),
     editTodo.get("description"),
     editTodo.get("duedate"),
-    editTodo.get("priority"),
     editTodo.get("notes")
   );
 
@@ -218,16 +246,23 @@ editInfo.addEventListener("submit", (e) => {
 newDiv.addEventListener("click", (e) => {
   if (!e.target.classList.contains("change-priority")) return;
 
-  let items = arr.find((item) => item.id === Number(e.target.dataset.objId));
-  let place = items.todos.find(
-    (item) => item.id === Number(e.target.dataset.itemId)
+  let todoItem = findItem(arr, e.target.dataset.objId, e.target.dataset.itemId);
+
+  priority(todoItem);
+
+  const projFolder = document.querySelector(
+    `button[data-id="${e.target.dataset.reload}"]`
   );
 
-  if (place.priority === "low") {
-    place.priority = "high";
-  } else {
-    place.priority = "low";
-  }
+  projFolder.click();
+});
+
+newDiv.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("check-input")) return;
+
+  let todoItem = findItem(arr, e.target.dataset.objId, e.target.dataset.itemId);
+
+  check(e.target.checked, todoItem);
 
   const projFolder = document.querySelector(
     `button[data-id="${e.target.dataset.reload}"]`
