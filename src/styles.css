@@ -95,11 +95,11 @@ body {
   height: 100vh;
   display: grid;
   grid-template-rows: 1fr 15fr;
-  background-color: var(--light-blue);
+  background-color: #292524;
 }
 
 .top {
-  background-color: var(--light-blue);
+  background-color: #292524;
   min-height: var(--top-width);
 }
 
@@ -109,7 +109,7 @@ body {
 }
 
 .sidebar {
-  background-color: var(--light-blue);
+  background-color: #292524;
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 10px;
@@ -118,19 +118,21 @@ body {
 }
 
 ::backdrop {
-  opacity: 0.99;
+  height: 100%;
+  width: 100%;
+  background-color: #292524;
 }
 
 #dialog-proj {
-  left: var(--sidebar-width);
-  background-color: black;
+  background-color: #292524;
   justify-self: center;
-  align-self: center;
+  align-self: start;
+  margin-top: 200px;
   color: white;
   border-radius: 5px;
   font-size: 1.5rem;
   font-weight: 700;
-  border: black 2px solid;
+  border: none;
   padding: 30px;
   width: 500px;
   margin-bottom: 20px;
@@ -148,10 +150,15 @@ dialog > form > * {
   padding: 0px 30px 0 30px;
 }
 
+.proj-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 input[type="text"] {
-  background-color: black;
+  background-color: #363231;
   border: none;
-  border-bottom: 1px solid white;
+  border-radius: 5px;
   padding-left: 6px;
   color: white;
   font-weight: 400;
@@ -159,11 +166,12 @@ input[type="text"] {
 
 input[type="submit"] {
   border: none;
-  background-color: rgb(0, 0, 0);
-  border: 1px solid rgb(255, 255, 255);
+  background-color: #363231;
   border-radius: 5px;
   color: white;
   margin: 0 29px 0 29px;
+  width: 200px;
+  place-self: center;
   cursor: pointer;
 }
 
@@ -171,15 +179,18 @@ input[type="radio"] {
   cursor: pointer;
 }
 
+fieldset {
+  border: none;
+}
+
 input[type="submit"]:hover {
-  background-color: white;
-  color: black;
+  background-color: #4b4645;
 }
 
 input[type="date"] {
-  background-color: black;
+  background-color: #363231;
+  border-radius: 5px;
   border: none;
-  border-bottom: 1px solid white;
   padding-left: 6px;
   color: white;
   font-weight: 400;
@@ -189,47 +200,51 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
 
-input[type="textarea"] {
+textarea {
+  all: unset;
+  background-color: #363231;
   border-radius: 5px;
+  padding-left: 5px;
 }
 
 #dialog-item {
-  top: var(--top-width);
-  left: var(--sidebar-width);
-  background-color: black;
+  background-color: #292524;
   justify-self: center;
   align-self: center;
   color: white;
   border-radius: 5px;
   font-size: 1.5rem;
   font-weight: 700;
-  border: black 2px solid;
+  border: none;
   padding: 30px;
   width: 500px;
   margin-bottom: 20px;
 }
 
 #dialog-edit {
-  top: var(--top-width);
-  left: var(--sidebar-width);
-  background-color: black;
+  background-color: #292524;
   justify-self: center;
   align-self: center;
   color: white;
-  border-radius: 5px;
+
   font-size: 1.5rem;
   font-weight: 700;
-  border: black 2px solid;
+  border: none;
   padding: 30px;
   width: 500px;
   margin-bottom: 20px;
+}
+
+.create-todo {
+  display: flex;
+  justify-content: center;
 }
 
 #new-proj {
   all: unset;
   text-align: center;
   color: white;
-  border: 2px solid white;
+  background-color: #363231;
   border-radius: 5px;
   width: 150px;
   height: 50px;
@@ -238,8 +253,8 @@ input[type="textarea"] {
 }
 
 #new-proj:hover {
-  background-color: white;
-  color: var(--light-blue);
+  background-color: #4b4645;
+  color: white;
   cursor: pointer;
 }
 
@@ -259,18 +274,18 @@ input[type="textarea"] {
 
 .projects {
   all: unset;
+  background-color: #363231;
   justify-self: center;
-  width: 150px;
+  width: 140px;
   text-align: center;
-  height: 30px;
-  border: 2px solid white;
+  height: 40px;
   margin-left: 25px;
   border-radius: 5px;
 }
 
 .projects:hover {
-  background-color: white;
-  color: var(--light-blue);
+  background-color: #4b4645;
+  color: white;
   cursor: pointer;
 }
 
@@ -290,7 +305,7 @@ input[type="textarea"] {
 .main-area {
   display: flex;
   flex-direction: column;
-  background-color: rgb(220, 220, 220);
+  background-color: #363231;
   border-top-left-radius: 5px;
 }
 
@@ -298,19 +313,18 @@ input[type="textarea"] {
   all: unset;
   align-self: center;
   margin-top: 5px;
-  color: rgb(0, 0, 0);
+  color: rgb(84, 81, 81);
   background-color: white;
   width: 150px;
   height: 35px;
   border-radius: 5px;
-  border: 1px solid black;
+
   text-align: center;
   cursor: pointer;
 }
 
 .new-todo:hover {
-  background-color: black;
-  color: white;
+  background-color: rgb(203, 203, 203);
 }
 
 .card-container {
