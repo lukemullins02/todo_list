@@ -35,19 +35,22 @@ showProj.addEventListener("click", () => {
 projInfo.addEventListener("submit", (e) => {
   e.preventDefault();
   dialog.close();
+  const holdBtn = document.createElement("div");
   const projBtn = document.createElement("button");
   const projDel = document.createElement("button");
   const newProj = new FormData(projInfo);
+  holdBtn.classList.add("proj-container");
   projBtn.classList.add("projects");
   projDel.classList.add("del-proj");
-  projDel.textContent = "Delete Project";
+  projDel.textContent = "X";
   projDel.dataset.id = i;
-  projBtn.textContent = newProj.get("title");
+  projBtn.textContent = `${newProj.get("title")}`;
   projBtn.dataset.id = i;
   arr.push({ id: i, todos: [] });
   i++;
-  div.appendChild(projBtn);
-  div.appendChild(projDel);
+  holdBtn.appendChild(projBtn);
+  holdBtn.appendChild(projDel);
+  div.appendChild(holdBtn);
 });
 
 div.addEventListener("click", (e) => {

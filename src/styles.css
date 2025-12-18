@@ -77,15 +77,30 @@ h6 {
 }
 
 /* Project CSS */
+:root {
+  --sidebar-width: 170px;
+  --light-blue: rgb(0, 157, 255);
+  --top-width: 50px;
+}
+
+.roboto-text {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
 body {
   height: 100vh;
   display: grid;
   grid-template-rows: 1fr 15fr;
+  background-color: var(--light-blue);
 }
 
 .top {
-  background-color: aqua;
-  min-height: 50px;
+  background-color: var(--light-blue);
+  min-height: var(--top-width);
 }
 
 .container {
@@ -94,15 +109,24 @@ body {
 }
 
 .sidebar {
-  background-color: aqua;
+  background-color: var(--light-blue);
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 10px;
+  border-radius: 5px;
+  min-width: 225px;
+}
+
+::backdrop {
+  opacity: 0.99;
 }
 
 #dialog-proj {
+  left: var(--sidebar-width);
+  background-color: black;
   justify-self: center;
   align-self: center;
+  color: white;
   border-radius: 5px;
   font-size: 1.5rem;
   font-weight: 700;
@@ -112,9 +136,70 @@ body {
   margin-bottom: 20px;
 }
 
+dialog > form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+dialog > form > * {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 30px 0 30px;
+}
+
+input[type="text"] {
+  background-color: black;
+  border: none;
+  border-bottom: 1px solid white;
+  padding-left: 6px;
+  color: white;
+  font-weight: 400;
+}
+
+input[type="submit"] {
+  border: none;
+  background-color: rgb(0, 0, 0);
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 5px;
+  color: white;
+  margin: 0 29px 0 29px;
+  cursor: pointer;
+}
+
+input[type="radio"] {
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: white;
+  color: black;
+}
+
+input[type="date"] {
+  background-color: black;
+  border: none;
+  border-bottom: 1px solid white;
+  padding-left: 6px;
+  color: white;
+  font-weight: 400;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+input[type="textarea"] {
+  border-radius: 5px;
+}
+
 #dialog-item {
+  top: var(--top-width);
+  left: var(--sidebar-width);
+  background-color: black;
   justify-self: center;
   align-self: center;
+  color: white;
   border-radius: 5px;
   font-size: 1.5rem;
   font-weight: 700;
@@ -125,8 +210,12 @@ body {
 }
 
 #dialog-edit {
+  top: var(--top-width);
+  left: var(--sidebar-width);
+  background-color: black;
   justify-self: center;
   align-self: center;
+  color: white;
   border-radius: 5px;
   font-size: 1.5rem;
   font-weight: 700;
@@ -137,10 +226,21 @@ body {
 }
 
 #new-proj {
-  width: 200px;
+  all: unset;
+  text-align: center;
+  color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+  width: 150px;
   height: 50px;
   place-self: center;
   align-self: start;
+}
+
+#new-proj:hover {
+  background-color: white;
+  color: var(--light-blue);
+  cursor: pointer;
 }
 
 .proj-name {
@@ -150,14 +250,67 @@ body {
   padding: 5px;
 }
 
+.proj-container {
+  display: flex;
+  color: white;
+  align-self: center;
+  border-radius: 5px;
+}
+
+.projects {
+  all: unset;
+  justify-self: center;
+  width: 150px;
+  text-align: center;
+  height: 30px;
+  border: 2px solid white;
+  margin-left: 25px;
+  border-radius: 5px;
+}
+
+.projects:hover {
+  background-color: white;
+  color: var(--light-blue);
+  cursor: pointer;
+}
+
+.del-proj {
+  all: unset;
+  justify-self: end;
+  padding-right: 3px;
+  width: 20px;
+  text-align: end;
+  cursor: pointer;
+}
+
+.del-proj:hover {
+  color: black;
+}
+
 .main-area {
   display: flex;
   flex-direction: column;
+  background-color: rgb(220, 220, 220);
+  border-top-left-radius: 5px;
 }
 
 .new-todo {
+  all: unset;
   align-self: center;
   margin-top: 5px;
+  color: rgb(0, 0, 0);
+  background-color: white;
+  width: 150px;
+  height: 35px;
+  border-radius: 5px;
+  border: 1px solid black;
+  text-align: center;
+  cursor: pointer;
+}
+
+.new-todo:hover {
+  background-color: black;
+  color: white;
 }
 
 .card-container {
@@ -171,7 +324,7 @@ body {
 .card {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
+  border: 2px solid rgb(255, 255, 255);
   color: white;
   padding: 10px;
   min-height: 100px;
