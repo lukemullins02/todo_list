@@ -44,6 +44,7 @@ Object.keys(localStorage).forEach((key) => {
   projDel.dataset.id = curProj.id;
   projBtn.textContent = `${curProj.name}`;
   projBtn.dataset.id = curProj.id;
+  holdBtn.dataset.id = curProj.id;
   holdBtn.appendChild(projBtn);
   holdBtn.appendChild(projDel);
   div.appendChild(holdBtn);
@@ -65,6 +66,7 @@ projInfo.addEventListener("submit", (e) => {
   projDel.dataset.id = newProj.id;
   projBtn.textContent = `${newProj.name}`;
   projBtn.dataset.id = newProj.id;
+  holdBtn.dataset.id = newProj.id;
   holdBtn.appendChild(projBtn);
   holdBtn.appendChild(projDel);
   div.appendChild(holdBtn);
@@ -74,9 +76,8 @@ div.addEventListener("click", (e) => {
   if (!e.target.classList.contains("del-proj")) return;
   deleteProj(arr, e.target.dataset.id);
   localStorage.removeItem(e.target.dataset.id);
-  const proj = document.querySelector(
-    `button[data-id="${e.target.dataset.id}"]`
-  );
+
+  const proj = document.querySelector(`div[data-id="${e.target.dataset.id}"]`);
 
   let child = newDiv.lastElementChild;
   while (child) {
@@ -212,6 +213,8 @@ itemInfo.addEventListener("submit", (e) => {
     false
   );
 
+  localStorage.setItem(proj.id, JSON.stringify(proj));
+
   const projFolder = document.querySelector(
     `button[data-id="${e.target.dataset.id}"]`
   );
@@ -222,8 +225,11 @@ itemInfo.addEventListener("submit", (e) => {
 newDiv.addEventListener("click", (e) => {
   if (!e.target.classList.contains("delete")) return;
 
-  console.log(e.target.dataset.itemId);
   deleteItem(arr, e.target.dataset.objId, e.target.dataset.itemId);
+
+  let proj = findProject(arr, e.target.dataset.objId, e.target.dataset.itemId);
+
+  localStorage.setItem(proj.id, JSON.stringify(proj));
 
   const reloadBtn = document.querySelector(
     `button[data-id="${e.target.dataset.reload}"]`
@@ -282,8 +288,6 @@ newDiv.addEventListener("click", (e) => {
   if (!e.target.classList.contains("change-priority")) return;
 
   let todoItem = findItem(arr, e.target.dataset.objId, e.target.dataset.itemId);
-
-  console.log(e.target.dataset.objId, e.target.dataset.itemId);
 
   priority(todoItem);
 
