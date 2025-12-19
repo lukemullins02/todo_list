@@ -14,12 +14,10 @@ class Todo {
 }
 
 class Project {
-  static id = 0;
-  constructor(name, todos) {
+  constructor(name, todos, id) {
     this.name = name;
     this.todos = todos;
-    this.id = Project.id;
-    Project.id = Project.id + 1;
+    this.id = id;
   }
 }
 

@@ -6,7 +6,7 @@ function createTodo(name, title, description, dueDate, priority, notes, check) {
 }
 
 function createProject(arr, name) {
-  const project = new Project(name, []);
+  const project = new Project(name, [], crypto.randomUUID());
   arr.push(project);
   return project;
 }

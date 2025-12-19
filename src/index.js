@@ -30,16 +30,34 @@ showProj.addEventListener("click", () => {
   dialog.showModal();
 });
 
+Object.keys(localStorage).forEach((key) => {
+  const value = localStorage.getItem(key);
+  const curProj = JSON.parse(value);
+  arr.push(curProj);
+  const holdBtn = document.createElement("div");
+  const projBtn = document.createElement("button");
+  const projDel = document.createElement("button");
+  holdBtn.classList.add("proj-container");
+  projBtn.classList.add("projects");
+  projDel.classList.add("del-proj");
+  projDel.textContent = "X";
+  projDel.dataset.id = curProj.id;
+  projBtn.textContent = `${curProj.name}`;
+  projBtn.dataset.id = curProj.id;
+  holdBtn.appendChild(projBtn);
+  holdBtn.appendChild(projDel);
+  div.appendChild(holdBtn);
+});
+
 projInfo.addEventListener("submit", (e) => {
   e.preventDefault();
   dialog.close();
-
   const holdBtn = document.createElement("div");
   const projBtn = document.createElement("button");
   const projDel = document.createElement("button");
   const projFormData = new FormData(projInfo);
   let newProj = createProject(arr, projFormData.get("title"));
-  console.log(newProj);
+  localStorage.setItem(newProj.id, JSON.stringify(newProj));
   holdBtn.classList.add("proj-container");
   projBtn.classList.add("projects");
   projDel.classList.add("del-proj");
@@ -55,7 +73,7 @@ projInfo.addEventListener("submit", (e) => {
 div.addEventListener("click", (e) => {
   if (!e.target.classList.contains("del-proj")) return;
   deleteProj(arr, e.target.dataset.id);
-
+  localStorage.removeItem(e.target.dataset.id);
   const proj = document.querySelector(
     `button[data-id="${e.target.dataset.id}"]`
   );
