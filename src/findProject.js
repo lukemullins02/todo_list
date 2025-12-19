@@ -1,5 +1,5 @@
 function findProject(arr, id) {
-  let proj = arr.find((item) => item.id === Number(id));
+  let proj = arr.find((item) => item.id === id);
 
   return proj;
 }

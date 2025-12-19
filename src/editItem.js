@@ -7,7 +7,7 @@ function editItem(
   newDueDate,
   newNotes
 ) {
-  let items = arr.find((item) => item.id === Number(objId));
+  let items = arr.find((item) => item.id === objId);
   let item = items.todos.find((item) => item.id === Number(itemId));
   item.title = newTitle;
   item.description = newDescription;

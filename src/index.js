@@ -113,6 +113,8 @@ div.addEventListener("click", (e) => {
 
   let proj = findProject(arr, e.target.dataset.id);
 
+  console.log(e.target.dataset.id, arr);
+
   let length = proj.todos.length;
 
   for (let i = 0; i < length; i++) {
@@ -280,6 +282,8 @@ newDiv.addEventListener("click", (e) => {
   if (!e.target.classList.contains("change-priority")) return;
 
   let todoItem = findItem(arr, e.target.dataset.objId, e.target.dataset.itemId);
+
+  console.log(e.target.dataset.objId, e.target.dataset.itemId);
 
   priority(todoItem);
 
