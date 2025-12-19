@@ -1,4 +1,4 @@
-import { projects } from "./projects.js";
+import { createTodo, createProject } from "./projects.js";
 import { deleteItem } from "./deleteItem.js";
 import { deleteProj } from "./deleteProj.js";
 import { editItem } from "./editItem.js";
@@ -9,8 +9,6 @@ import { priority } from "./priority.js";
 import "./styles.css";
 
 let arr = [];
-let i = 0;
-let index = 0;
 
 const dialog = document.querySelector("#dialog-proj");
 const showProj = document.querySelector("#new-proj");
@@ -35,19 +33,20 @@ showProj.addEventListener("click", () => {
 projInfo.addEventListener("submit", (e) => {
   e.preventDefault();
   dialog.close();
+
   const holdBtn = document.createElement("div");
   const projBtn = document.createElement("button");
   const projDel = document.createElement("button");
-  const newProj = new FormData(projInfo);
+  const projFormData = new FormData(projInfo);
+  let newProj = createProject(arr, projFormData.get("title"));
+  console.log(newProj);
   holdBtn.classList.add("proj-container");
   projBtn.classList.add("projects");
   projDel.classList.add("del-proj");
   projDel.textContent = "X";
-  projDel.dataset.id = i;
-  projBtn.textContent = `${newProj.get("title")}`;
-  projBtn.dataset.id = i;
-  arr.push({ id: i, todos: [] });
-  i++;
+  projDel.dataset.id = newProj.id;
+  projBtn.textContent = `${newProj.name}`;
+  projBtn.dataset.id = newProj.id;
   holdBtn.appendChild(projBtn);
   holdBtn.appendChild(projDel);
   div.appendChild(holdBtn);
@@ -183,17 +182,15 @@ itemInfo.addEventListener("submit", (e) => {
 
   let proj = findProject(arr, e.target.dataset.id);
 
-  projects(
+  createTodo(
     proj,
     newItem.get("title"),
     newItem.get("description"),
     newItem.get("duedate"),
     newItem.get("priority"),
     newItem.get("notes"),
-    false,
-    index
+    false
   );
-  index++;
 
   const projFolder = document.querySelector(
     `button[data-id="${e.target.dataset.id}"]`
