@@ -1,7 +1,15 @@
 import { Todo, Project } from "./todo";
 
 function createTodo(name, title, description, dueDate, priority, notes, check) {
-  const todo = new Todo(title, description, dueDate, priority, notes, check);
+  const todo = new Todo(
+    title,
+    description,
+    dueDate,
+    priority,
+    notes,
+    check,
+    crypto.randomUUID()
+  );
   name.todos.push(todo);
 }
 

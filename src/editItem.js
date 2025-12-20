@@ -8,7 +8,7 @@ function editItem(
   newNotes
 ) {
   let items = arr.find((item) => item.id === objId);
-  let item = items.todos.find((item) => item.id === Number(itemId));
+  let item = items.todos.find((item) => item.id === itemId);
   item.title = newTitle;
   item.description = newDescription;
   item.dueDate = newDueDate;

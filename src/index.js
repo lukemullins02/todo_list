@@ -1,11 +1,11 @@
 import { createTodo, createProject } from "./projects.js";
-import { deleteItem } from "./deleteItem.js";
-import { deleteProj } from "./deleteProj.js";
+import { deleteItem, deleteProj } from "./delete.js";
 import { editItem } from "./editItem.js";
-import { findItem } from "./findItem.js";
-import { findProject } from "./findProject.js";
+import { findItem, findProject } from "./find.js";
 import { check } from "./check.js";
 import { priority } from "./priority.js";
+import { store, getStore } from "./storage.js";
+import { format, parseISO } from "date-fns";
 import "./styles.css";
 
 let arr = [];
@@ -31,8 +31,7 @@ showProj.addEventListener("click", () => {
 });
 
 Object.keys(localStorage).forEach((key) => {
-  const value = localStorage.getItem(key);
-  const curProj = JSON.parse(value);
+  const curProj = getStore(key);
   arr.push(curProj);
   const holdBtn = document.createElement("div");
   const projBtn = document.createElement("button");
@@ -58,7 +57,7 @@ projInfo.addEventListener("submit", (e) => {
   const projDel = document.createElement("button");
   const projFormData = new FormData(projInfo);
   let newProj = createProject(arr, projFormData.get("title"));
-  localStorage.setItem(newProj.id, JSON.stringify(newProj));
+  store(newProj.id, JSON.stringify(newProj));
   holdBtn.classList.add("proj-container");
   projBtn.classList.add("projects");
   projDel.classList.add("del-proj");
@@ -177,7 +176,7 @@ div.addEventListener("click", (e) => {
 
     itemDom.textContent = item.todos[i].title;
     checkInput.checked = item.todos[i].check;
-    dateDom.textContent = item.todos[i].dueDate;
+    dateDom.textContent = format(parseISO(item.todos[i].dueDate), "MM/dd/yyyy");
 
     top_card.appendChild(itemDom);
     top_card.appendChild(dateDom);
@@ -213,7 +212,7 @@ itemInfo.addEventListener("submit", (e) => {
     false
   );
 
-  localStorage.setItem(proj.id, JSON.stringify(proj));
+  store(proj.id, JSON.stringify(proj));
 
   const projFolder = document.querySelector(
     `button[data-id="${e.target.dataset.id}"]`
@@ -229,7 +228,7 @@ newDiv.addEventListener("click", (e) => {
 
   let proj = findProject(arr, e.target.dataset.objId, e.target.dataset.itemId);
 
-  localStorage.setItem(proj.id, JSON.stringify(proj));
+  store(proj.id, JSON.stringify(proj));
 
   const reloadBtn = document.querySelector(
     `button[data-id="${e.target.dataset.reload}"]`
@@ -251,8 +250,6 @@ newDiv.addEventListener("click", (e) => {
   const editDueDate = document.querySelector(".edit-duedate");
   const editNotes = document.querySelector(".edit-notes");
 
-  console.log(todoItem);
-
   editTitle.value = todoItem.title;
   editDescription.value = todoItem.description;
   editDueDate.value = todoItem.dueDate;
@@ -267,6 +264,8 @@ editInfo.addEventListener("submit", (e) => {
 
   const editTodo = new FormData(editInfo);
 
+  let proj = findProject(arr, e.target.dataset.objId);
+
   editItem(
     arr,
     e.target.dataset.objId,
@@ -276,6 +275,8 @@ editInfo.addEventListener("submit", (e) => {
     editTodo.get("duedate"),
     editTodo.get("notes")
   );
+
+  store(proj.id, JSON.stringify(proj));
 
   const projFolder = document.querySelector(
     `button[data-id="${e.target.dataset.reload}"]`
@@ -288,8 +289,11 @@ newDiv.addEventListener("click", (e) => {
   if (!e.target.classList.contains("change-priority")) return;
 
   let todoItem = findItem(arr, e.target.dataset.objId, e.target.dataset.itemId);
+  let proj = findProject(arr, e.target.dataset.objId);
 
   priority(todoItem);
+
+  store(proj.id, JSON.stringify(proj));
 
   const cardItem = document.querySelector(
     `div[data-item-id="${e.target.dataset.itemId}"][data-obj-id="${e.target.dataset.objId}"]`
@@ -305,9 +309,12 @@ newDiv.addEventListener("click", (e) => {
 newDiv.addEventListener("click", (e) => {
   if (!e.target.classList.contains("check-input")) return;
 
+  let proj = findProject(arr, e.target.dataset.objId);
   let todoItem = findItem(arr, e.target.dataset.objId, e.target.dataset.itemId);
 
   check(e.target.checked, todoItem);
+
+  store(proj.id, JSON.stringify(proj));
 
   const projFolder = document.querySelector(
     `button[data-id="${e.target.dataset.reload}"]`
