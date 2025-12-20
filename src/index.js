@@ -144,6 +144,13 @@ div.addEventListener("click", (e) => {
       card.classList.add("priority-low");
     }
 
+    if (item.todos[i].check) {
+      card.classList.add("completed");
+    }
+
+    itemDom.classList.add("line-through");
+    dateDom.classList.add("line-through");
+
     checkInput.setAttribute("type", "checkbox");
     checkInput.setAttribute("id", "check");
     checkInput.setAttribute("name", "check");

@@ -345,16 +345,24 @@ textarea {
   border-radius: 5px;
 }
 
+.card.completed * {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
 .top-card {
   display: flex;
   justify-content: space-around;
-
   margin-bottom: 15px;
   place-items: center;
 }
 .top-card > * {
   text-align: center;
   width: 150px;
+}
+
+.card.line-through {
+  text-decoration: line-through;
 }
 
 .bottom-card {
