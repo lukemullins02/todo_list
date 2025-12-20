@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  <script defer src="main.js"></script></head>
+  <body class="roboto-text">
+    <dialog id="dialog-proj">
+      <form class="proj-info">
+        <div>
+          <label for="title" class="proj-title"
+            >Please enter Project name</label
+          >
+          <input maxlength="14" type="text" id="title" name="title" required />
+        </div>
+        <input type="submit" value="Submit" id="proj-btn" />
+      </form>
+    </dialog>
+    <dialog id="dialog-item">
+      <h3 class="create-todo">Create Todo</h3>
+      <form class="item-info">
+        <div>
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" required />
+        </div>
+        <div>
+          <label for="description">Description</label>
+          <input type="text" id="description" name="description" required />
+        </div>
+        <div>
+          <label for="duedate">Due Date</label>
+          <input type="date" id="duedate" name="duedate" required />
+        </div>
+
+        <fieldset class="edit-priority">
+          <legend>Select Priority</legend>
+
+          <div>
+            <input type="radio" id="low" name="priority" value="Low" />
+            <label for="low">Low</label>
+          </div>
+
+          <div>
+            <input type="radio" id="high" name="priority" value="High" />
+            <label for="high">High</label>
+          </div>
+        </fieldset>
+        <div>
+          <label for="notes">Notes</label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows="5"
+            cols="30"
+            required
+          ></textarea>
+        </div>
+        <input type="submit" value="Submit" id="item-btn" />
+      </form>
+    </dialog>
+    <dialog id="dialog-edit">
+      <h3 class="create-todo">Edit Todo</h3>
+      <form class="edit-info">
+        <div>
+          <label for="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="edit-title"
+            required
+          />
+        </div>
+        <div>
+          <label for="description">Description</label>
+          <input
+            type="text"
+            id="description"
+            name="description"
+            class="edit-description"
+            required
+          />
+        </div>
+        <div>
+          <label for="duedate">Due Date</label>
+          <input
+            type="date"
+            id="duedate"
+            name="duedate"
+            class="edit-duedate"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="notes">Notes</label>
+          <textarea
+            id="notes"
+            name="notes"
+            class="edit-notes"
+            rows="5"
+            cols="30"
+            required
+          ></textarea>
+        </div>
+        <input type="submit" value="Submit" id="edit-btn" />
+      </form>
+    </dialog>
+    <div class="top"></div>
+    <div class="container">
+      <div class="sidebar">
+        <button id="new-proj">New Project</button>
+        <div class="proj-name"></div>
+      </div>
+      <div class="main-area"></div>
+    </div>
+  </body>
+</html>
